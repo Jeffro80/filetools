@@ -685,6 +685,10 @@ def save_list_to_text_single(data_list, headings, file_name):
     file already exists and checks if user wishes to override it. Saves the
     entire list to one line and includes a header row at the top. If headings
     is empty, heading row is not included.
+    
+    If file name is provided, it must have .txt at the end of it.
+    To not use headings, a headings value of '' should be passed.
+    Function will save the file without a comma at the end of the line.
 
     Args:
         data_list (list): List containing the captions.
@@ -721,8 +725,12 @@ def save_list_to_text_single(data_list, headings, file_name):
                 FO = open(file_name, 'w')
                 if headings not in (None, ''):
                     FO.write(str(headings) + '\n')
+                # Print first item
+                first = data_list.pop(0)
+                FO.write(str(first))
+                # Print subsequent items with a leading comma
                 for line in data_list:
-                    FO.write(str(line) + ',')
+                    FO.write(',' + str(line))
                 FO.close()
                 print('\n{} is saved.'.format(file_name))
                 file_available = True
